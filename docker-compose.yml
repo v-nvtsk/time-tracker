@@ -16,23 +16,16 @@ services:
       retries: 5
       start_period: 10s
 
-  openapi_generator:
+  frontend:
     build:
-      context: ./tools/openapi-generator
-      dockerfile: Dockerfile
+      context: ./packages/frontend
+      dockerfile: Dockerfile.dev
     depends_on:
       nestjs:
         condition: service_healthy
+    env_file:
+     - ./packages/frontend/.env
+    ports:
+      - "5173:5173"
     volumes:
-      - ./tools/openapi-generator/.build:/local/out
-
-  # react_app:
-  #   build:
-  #     context: ./packages/frontend
-  #     dockerfile: Dockerfile.dev
-  #   env_file:
-  #    - ./packages/frontend/.env
-  #   ports:
-  #     - 5173:5173
-  #   volumes:
-  #     - ./packages/frontend/src/:/app/src
+      - ./packages/frontend/src/:/app/src
