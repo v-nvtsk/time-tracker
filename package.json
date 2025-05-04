@@ -1,0 +1,28 @@
+{
+  "name": "time-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prepare-dev-backend": "cd packages/backend && npm install",
+    "prepare-dev-frontend": "cd packages/frontend && npm install",
+    "prepare-dev-extension": "cd packages/extension && npm install",
+    "prepare-dev-env": "npm run prepare-dev-backend && npm run prepare-dev-frontend && npm run prepare-dev-extension",
+    "build-backend": "cd packages/backend && npm run build",
+    "build-frontend": "cd packages/frontend && npm run build",
+    "build-extension": "cd packages/extension && npm run build",
+    "build-dev": "npm run prepare-dev-env && npm run build-backend && npm run build-frontend && npm run build-extension",
+    "biuld-prod": "npm run prepare-dev-env && npm run build-backend && npm run build-frontend",
+    "dockerize": "sh -c 'docker compose down --rmi all --volumes --remove-orphans && docker compose up --force-recreate'",
+    "LEGACY_generate-api-client": "sh -c 'docker compose down --rmi all --volumes --remove-orphans && docker compose up --force-recreate --build openapi_generator'",
+    "generate-api-client": "openapi-generator-cli generate -g typescript-axios -i http://localhost:3000/api-json -o ./tools/generated",
+    "update-api-client": "sh ./scripts/update-api.sh",
+    "generate-and-update-api-client": "npm run generate-api-client && npm run update-api-client"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.18.4"
+  }
+}

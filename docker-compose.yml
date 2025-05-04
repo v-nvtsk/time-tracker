@@ -1,0 +1,31 @@
+services:
+  nestjs:
+    build:
+      context: ./packages/backend
+      dockerfile: Dockerfile.dev
+    env_file:
+      - ./packages/backend/.env.local
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./packages/backend/src/:/app/src
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api-json"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./packages/frontend
+      dockerfile: Dockerfile.dev
+    depends_on:
+      nestjs:
+        condition: service_healthy
+    env_file:
+     - ./packages/frontend/.env
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./packages/frontend/src/:/app/src

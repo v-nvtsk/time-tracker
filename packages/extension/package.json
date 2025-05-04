@@ -1,0 +1,53 @@
+{
+  "name": "site-time-tracker-chrome",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "npm-run-all clean build-background build-main build-content",
+    "build-background": "vite build -c vite.config.background.ts",
+    "build-main": "vite build -c vite.config.main.ts",
+    "build-content": "vite build -c vite.config.content.ts",
+    "clean": "rm -rf dist",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview",
+    "genkey": "sh ./cert/genkey.sh",
+    "pack": "google-chrome --pack-extension=./dist --pack-extension-key=./cert/dist.pem && mkdir crx && mv ./dist.crx ./crx/extension.crx",
+    "zip": "cd dist && zip -r ../crx/extension.zip ./*",
+    "test": "vitest --coverage",
+    "test:types": "vitest --typecheck --coverage types"
+  },
+  "dependencies": {
+    "axios": "^1.8.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "@stylistic/eslint-plugin-jsx": "^4.2.0",
+    "@testing-library/react": "^16.2.0",
+    "@types/chrome": "^0.0.307",
+    "@types/jest": "^29.5.14",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@types/testing-library__jest-dom": "^5.14.9",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^3.0.8",
+    "eslint": "^9.19.0",
+    "eslint-import-resolver-typescript": "^3.9.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.18",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "globals": "^15.14.0",
+    "jsdom": "^26.0.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "~5.7.2",
+    "typescript-eslint": "^8.22.0",
+    "unplugin-auto-import": "^19.1.1",
+    "vite": "^6.1.0",
+    "vitest": "^3.0.8"
+  }
+}
